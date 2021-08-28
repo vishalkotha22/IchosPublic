@@ -1,14 +1,27 @@
 import streamlit as st
 import numpy as np
+import cv2
+import pickle
 from PIL import Image, ImageOps
 
-def predict(image):
-    return 0.2
+def get_model():
+    pickle_in = open('models/alzheimers_model.pickle', 'rb')
+    classifier = pickle.load(pickle_in)
+
+def predict(image_data):
+    model = get_model()
+    image = ImageOps.fit(image_data, (295, 295), Image.ANTIALIAS)
+    image = np.asarray(image)
+    img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    img_resize = (cv2.resize(img, dsize=(295, 295), interpolation=cv2.INTER_CUBIC)) / 255.
+    img_reshape = img_resize[np.newaxis, ...]
+    prediction = model.predict(img_reshape)
+    return prediction
 
 def app():
     # Temporarily using spectogram images
     st.title('Alzheimers Disease')
-    file = st.file_uploader("Please upload an image file", type=["jpg", "png"])
+    file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
     if file is None:
         st.text("Please upload an image file")
     else:
