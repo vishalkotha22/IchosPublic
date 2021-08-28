@@ -15,7 +15,8 @@ def predict(image_data):
     image = np.asarray(image)
     img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     img_resize = (cv2.resize(img, dsize=(295, 295), interpolation=cv2.INTER_CUBIC)) / 255.
-    img_reshape = img_resize[np.newaxis, ...]
+    x = img_resize.flatten()
+    img_reshape = x[np.newaxis, ...]
     prediction = model.predict(img_reshape)
     return prediction
 
@@ -33,4 +34,4 @@ def app():
         if num >=0.50:
             st.write("Alzheimer's Disease has been diagnosed with: " + str(round(num*100, 3)) + "% Confidence.")
         else:
-            st.write("Alzheimer's disease has not been diagnosed with: " + str(round((1.00-num) * 100, 3)) + "% Confidence.")
+            st.write("Alzheimer's disease has not been detected with: " + str(round((1.00-num) * 100, 3)) + "% Confidence.")
