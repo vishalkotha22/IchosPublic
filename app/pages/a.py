@@ -7,6 +7,7 @@ from PIL import Image, ImageOps
 def get_model():
     pickle_in = open('models/alzheimers_model.pickle', 'rb')
     classifier = pickle.load(pickle_in)
+    return classifier
 
 def predict(image_data):
     model = get_model()
