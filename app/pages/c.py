@@ -14,7 +14,5 @@ def get_model():
 def app():
     st.title('Respiratory Diseases')
     file = st.file_uploader("Please upload an audio recording", type=["wav"])
-    if file is None:
-        pass
-    else:
+    if file is not None:
         # inference stuff here (display the audio file and run the model)
