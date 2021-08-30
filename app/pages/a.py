@@ -25,7 +25,7 @@ def app():
     st.title('Alzheimers Disease')
     file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
     if file is None:
-        st.text("Please upload an image file")
+        pass
     else:
         image = Image.open(file)
         st.image(image, use_column_width=True)
