@@ -24,9 +24,7 @@ def app():
     # Temporarily using spectogram images
     st.title('Alzheimers Disease')
     file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
-    if file is None:
-        pass
-    else:
+    if file is not None:
         image = Image.open(file)
         st.image(image, use_column_width=True)
         prediction = predict(image)
