@@ -14,7 +14,7 @@ from scipy.io import wavfile
 
 @st.cache(allow_output_mutation=True)
 def get_model():
-    model = tf.keras.models.load_model('models/respiratory_model.pb')
+    model = tf.keras.models.load_model(r'C:\CongressionalAppChallenge\Congressional-App-Challenge-2021\app\Models\respiratory_model')
     return model
 
 
@@ -41,5 +41,8 @@ def app():
     if file is not None:
         data = respiratory_preprocess(file)
         st.write(str(data))
+        model = get_model()
+        st.write(model.summary())
+        # st.write(model.predict(data)) <-- line does not work
         # inference stuff here (display the audio file and run the model)
         pass
