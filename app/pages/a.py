@@ -3,9 +3,13 @@ import numpy as np
 import cv2
 import pickle
 from PIL import Image, ImageOps
+from scipy import signal
+from scipy.io import wavfile
+import matplotlib.pyplot as plt
+from pydub import AudioSegment
 
 def get_model():
-    pickle_in = open('models/alzheimers_model.pickle', 'rb')
+    pickle_in = open('alzheimers_model.pickle', 'rb')
     classifier = pickle.load(pickle_in)
     return classifier
 
@@ -23,10 +27,23 @@ def predict(image_data):
 def app():
     # Temporarily using spectogram images
     st.title('Alzheimers Disease')
-    file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
+    file = st.file_uploader("Please upload an audio file", type=["wav"])
+
     if file is not None:
-        image = Image.open(file)
-        st.image(image, use_column_width=True)
+        sound = AudioSegment.from_wav(file)
+        sound = sound.set_channels(1)
+        sound.export("path.wav", format="wav")
+        sample_rate, samples = wavfile.read("path.wav")
+        frequencies, times, spectrogram = signal.spectrogram(samples, sample_rate)
+
+        plt.pcolormesh(times, frequencies, spectrogram)
+        plt.imshow(spectrogram)
+        plt.ylabel('Frequency [Hz]')
+        plt.xlabel('Time [sec]')
+        plt.show()
+        image = spectrogram
+        #image = Image.open(spectrogram)
+        #st.image(image, use_column_width=True)
         prediction = predict(image)
         num = np.amax(prediction)
         if num >=0.50:
