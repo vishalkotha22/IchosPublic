@@ -45,4 +45,3 @@ def app():
         st.write(model.summary())
         # st.write(model.predict(data)) <-- line does not work
         # inference stuff here (display the audio file and run the model)
-        pass
