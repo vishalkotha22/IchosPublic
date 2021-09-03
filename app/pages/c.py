@@ -16,3 +16,4 @@ def app():
     file = st.file_uploader("Please upload an audio recording", type=["wav"])
     if file is not None:
         # inference stuff here (display the audio file and run the model)
+        pass
