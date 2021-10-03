@@ -2,6 +2,14 @@ import librosa as lb
 import numpy as np
 
 
+class_names = {0: 'URTI', 1: 'Healthy', 2: 'Asthma', 3: 'COPD', 4: 'LRTI', 5: 'Bronchiectasis',
+              6: 'Pneumonia', 7: 'Bronchiolitis'}
+
+class_names_full = {0: 'Upper Respiratory Tract Infection', 1: 'Healthy', 
+                    2: 'Asthma', 3: 'Chronic Obstructive Pulmonary Disease', 
+                    4: 'Lower Respiratory Tract Infections', 5: 'Bronchiectasis',
+                    6: 'Pneumonia', 7: 'Bronchiolitis'}
+
 # Helper method for respiratory_preprocess
 def get_feature_helper(path):
     soundArr,sample_rate=lb.load(path)
