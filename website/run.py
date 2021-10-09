@@ -17,5 +17,9 @@ def sli():
 def respiratory():
    return render_template('respiratory.html')
 
+@app.route('/generic')
+def generic():
+   return render_template('generic.html')
+
 if __name__ == '__main__':
    app.run()
