@@ -36,6 +36,19 @@
 							<h1 class="major">Elements</h1>
 
 							<!-- Text -->
+							<section>
+								<h3>Upload .wav File here</h3>
+
+									<label for="file-upload" class="button icon solid fa-upload">
+    									Upload File
+									</label>
+									<form action = "http://localhost:5000/uploader" method = "POST"
+										   enctype = "multipart/form-data">
+											<input id = "file-upload" type = "file" name = "file" />
+											<input type = "submit"/>
+									 </form>
+
+								</section>
 								<section>
 									<h2>Text</h2>
 									<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
@@ -346,7 +359,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<footer id="footer" class="wrapper alt">
 				<div class="inner">
 					<ul class="menu">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						<li>&copy; Ichos. All rights reserved.</li><li>
 					</ul>
 				</div>
 			</footer>
