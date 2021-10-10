@@ -1,6 +1,12 @@
 import librosa as lb
 import numpy as np
-
+import cv2
+import pickle
+from PIL import Image, ImageOps
+from scipy import signal
+from scipy.io import wavfile
+import matplotlib.pyplot as plt
+from pydub import AudioSegment
 
 class_names = {0: 'URTI', 1: 'Healthy', 2: 'Asthma', 3: 'COPD', 4: 'LRTI', 5: 'Bronchiectasis',
               6: 'Pneumonia', 7: 'Bronchiolitis'}
@@ -88,6 +94,26 @@ def get_sli_features(wav_file):
     average_syl = total_syl / len(split)
     num_dos = text.count('do')
     return [child_TNW, repetition, fillers, average_syl, -1, 'male', total_syl, num_dos]
+
+
+def wav_to_spectrogram(file):
+    sound = AudioSegment.from_wav(file)
+    sound = sound.set_channels(1)
+    sound.export("path.wav", format="wav")
+    sample_rate, samples = wavfile.read("path.wav")
+    frequencies, times, spectrogram = signal.spectrogram(samples, sample_rate)
+    plt.ylabel('Frequency [Hz]')
+    plt.xlabel('Time [sec]')
+    plt.show()
+    image = spectrogram
+    io_buf = io.BytesIO()
+    fig.savefig(io_buf, format='raw', dpi=36)
+    io_buf.seek(0)
+    img_arr = np.reshape(np.frombuffer(io_buf.getvalue(), dtype=np.uint8),
+                         newshape=(int(fig.bbox.bounds[3]), int(fig.bbox.bounds[2]), -1))
+    io_buf.close()
+    print(img_arr.shape)
+    return img_arr
 
 
 
