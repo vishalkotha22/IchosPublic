@@ -59,6 +59,9 @@ mark {
 	color: inherit;
 }
 
+input[type='file'] {
+  color: transparent;
+}
 input::-moz-focus-inner {
 	border: 0;
 	padding: 0;

@@ -39,13 +39,20 @@
 							<section>
 								<h3>Upload .wav File here</h3>
 
-									<label for="file-upload" class="button icon solid fa-upload">
-    									Upload File
-									</label>
+
 									<form action = "http://localhost:5000/uploader" method = "POST"
 										   enctype = "multipart/form-data">
-											<input id = "file-upload" type = "file" name = "file" />
-											<input type = "submit"/>
+											<ul class="actions">
+												<label class="button icon solid fa-upload">
+   													<span>Add Files</span>
+													<input type="file" id="files" name="file"></input>
+													<div id="files-filename"></div>
+												</label>
+
+												<li><input type = "submit"/></li>
+											</ul>
+
+
 									 </form>
 
 								</section>
