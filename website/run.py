@@ -16,7 +16,7 @@ app = Flask(__name__)
 def home():
    return render_template('index.html')
 
-@app.route('/alzheimers')
+@app.route('/alzheimers', methods=['GET', 'POST'])
 def alzheimers():
    def wav_to_spectrogram(file):
       sound = AudioSegment.from_wav(file)
@@ -53,8 +53,11 @@ def alzheimers():
       img_reshape = x[np.newaxis, ...]
       prediction = model.predict(img_reshape)
       return prediction
+
+   if flask.request.method == 'GET':
+      return render_template('alzheimers.html')
+   if flask.request.method == 'POST':
       
-   return render_template('alzheimers.html')
 
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
