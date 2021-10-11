@@ -1,3 +1,4 @@
+from PIL import ImageOps
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 import librosa as lb
@@ -6,6 +7,8 @@ import pickle
 from scipy import signal
 from scipy.io import wavfile
 from pydub import AudioSegment
+import io
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
