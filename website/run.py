@@ -57,7 +57,7 @@ def alzheimers():
    if flask.request.method == 'GET':
       return render_template('alzheimers.html')
    if flask.request.method == 'POST':
-      
+      pass
 
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
