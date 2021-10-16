@@ -3,3 +3,4 @@ __pycache__/
 app/Models/
 .DS_Store
 .vscode/settings.json
+*.wav
