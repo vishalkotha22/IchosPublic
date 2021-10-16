@@ -8,9 +8,10 @@ import pickle
 from scipy import signal
 from scipy.io import wavfile
 from pydub import AudioSegment
-from Preprocessing import respiratory_preprocess, get_sli_features, wav_to_spectrogram
 import io
 import matplotlib.pyplot as plt
+from Preprocessing import wav_to_spectrogram, get_sli_features, get_feature_helper
+import streamlit as st
 
 app = Flask(__name__)
 
@@ -20,25 +21,6 @@ def home():
 
 @app.route('/alzheimers', methods=['GET', 'POST'])
 def alzheimers():
-   def wav_to_spectrogram(file):
-      sound = AudioSegment.from_wav(file)
-      sound = sound.set_channels(1)
-      sound.export("path.wav", format="wav")
-      sample_rate, samples = wavfile.read("path.wav")
-      frequencies, times, spectrogram = signal.spectrogram(samples, sample_rate)
-      # plt.ylabel('Frequency [Hz]')
-      # plt.xlabel('Time [sec]')
-      # plt.show()
-      image = spectrogram
-      io_buf = io.BytesIO()
-      fig.savefig(io_buf, format='raw', dpi=36)
-      io_buf.seek(0)
-      img_arr = np.reshape(np.frombuffer(io_buf.getvalue(), dtype=np.uint8),
-                           newshape=(int(fig.bbox.bounds[3]), int(fig.bbox.bounds[2]), -1))
-      io_buf.close()
-      # print(img_arr.shape)
-      return img_arr
-
    def load_model():
       pickle_in = open('alzheimers_model.pickle', 'rb')
       classifier = pickle.load(pickle_in)
@@ -56,17 +38,15 @@ def alzheimers():
       prediction = model.predict(img_reshape)
       return prediction
 
-   if flask.request.method == 'GET':
-      return render_template('alzheimers.html')
    if flask.request.method == 'POST':
       pass
+   return render_template('alzheimers.html')
 
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
    if request.method == 'POST':
       f = request.files['file']
       f.save(secure_filename(f.filename))
-      return "file uploaded succesfully"
 
 @app.route('/sli')
 def sli():
