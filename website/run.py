@@ -10,6 +10,7 @@ from scipy.io import wavfile
 from pydub import AudioSegment
 import io
 import matplotlib.pyplot as plt
+import cv2
 from Preprocessing import wav_to_spectrogram, get_sli_features, get_feature_helper
 import streamlit as st
 
@@ -29,7 +30,7 @@ def alzheimers():
    def inference(file):
       img = wav_to_spectrogram(file)
       model = load_model()
-      mage = ImageOps.fit(image_data, (295, 295), Image.ANTIALIAS)
+      image = ImageOps.fit(image_data, (295, 295), Image.ANTIALIAS)
       image = np.asarray(image)
       img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
       img_resize = (cv2.resize(img, dsize=(295, 295), interpolation=cv2.INTER_CUBIC)) / 255.
@@ -47,6 +48,7 @@ def upload_file():
    if request.method == 'POST':
       f = request.files['file']
       f.save(secure_filename('file.wav'))
+
 
 @app.route('/sli')
 def sli():
