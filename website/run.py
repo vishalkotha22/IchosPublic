@@ -46,7 +46,7 @@ def alzheimers():
 def upload_file():
    if request.method == 'POST':
       f = request.files['file']
-      f.save(secure_filename(f.filename))
+      f.save(secure_filename('file.wav'))
 
 @app.route('/sli')
 def sli():
