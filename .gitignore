@@ -5,7 +5,3 @@ app/Models/
 .vscode/settings.json
 *.wav
 website/models/alzheimers_model.pickle
-website/models/respiratory_model/saved_model.pb
-website/models/respiratory_model/variables/variables.data-00000-of-00001
-website/models/respiratory_model/variables/variables.index
-website/models/updated_forest_sli.pkl
