@@ -7,6 +7,7 @@ from scipy import signal
 from scipy.io import wavfile
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
+import io
 
 class_names = {0: 'URTI', 1: 'Healthy', 2: 'Asthma', 3: 'COPD', 4: 'LRTI', 5: 'Bronchiectasis',
               6: 'Pneumonia', 7: 'Bronchiolitis'}
@@ -102,12 +103,14 @@ def wav_to_spectrogram(file):
     sound.export("path.wav", format="wav")
     sample_rate, samples = wavfile.read("path.wav")
     frequencies, times, spectrogram = signal.spectrogram(samples, sample_rate)
+    fig = plt.figure()
+    plt.pcolormesh(times, frequencies, np.log(spectrogram))
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [sec]')
     plt.show()
     image = spectrogram
     io_buf = io.BytesIO()
-    fig.savefig(io_buf, format='raw', dpi=36)
+    fig.savefig(io_buf, format='raw', dpi=50)
     io_buf.seek(0)
     img_arr = np.reshape(np.frombuffer(io_buf.getvalue(), dtype=np.uint8),
                          newshape=(int(fig.bbox.bounds[3]), int(fig.bbox.bounds[2]), -1))

@@ -53,7 +53,16 @@
 									<h2> Alzheimer's Disease</h2>
 									<p> Every year, there are over 500,000 Americans diagnosed with Alzheimer's Disease with an additional 100,000 people dying from the disease globally. Furthermore, Alzheimer's is one of the hardest diseases to diagnose with expert neurologists only able to classify the disease correctly 77% of the time. We provide a novel framework using cutting edge artificial intelligence techniques that can diagnose the disease at its earliest stages using only speaking data with an accuracy of 97%, making it 20% more accurate than a doctor.</p>
 									<ul class="actions">
-										<li><a href="alzheimers" class="button">Alzheimer's Disease Detection</a></li>
+										<form action = "http://localhost:5000/alzhiemersuploader" method = "POST"
+										   enctype = "multipart/form-data">
+											<ul class="actions">
+												<label class="button icon solid fa-upload">
+   													<span>Upload .wav file</span>
+													<input type="file" id="files" name="file"></input>
+													<div id="files-filename"></div>
+												</label>
+												<li><input type = "submit"/></li>
+											</ul>
 									</ul>
 								</div>
 							</div>
@@ -65,7 +74,17 @@
 									<h2>Respiratory Diseases</h2>
 									<p>According to the WHO, respiratory diseases are the fourth leading cause of death globally. There are a multitude of different respiratory diseases that are difficult to classify without expensive equipment and experienced doctors. This is why we created an accessible, easy-to-use model utilizing advanced machine learning architectures to classify 6 of the most common types of respiratory diseases such as Asthma, Pneumonia, Bronchiectasis, Bronchiolitis, Chronic Obstructive Pulmonary Disease, and Upper and Lower Respiratory Tract Infections solely using audio from a digital stethoscope with an accuracy of 85%. Furthermore, we have modelled a stethoscope that can provide high quality digital recordings and an accessible diagnosis option regardless of medical expertise. We hope that our diagnostic framework for respiratory diseases can one day be a more accessible solution in low-income communities that could save thousands of lives. </p>
 									<ul class="actions">
-										<li><a href="respiratory" class="button">Respiratory Disease Detection</a></li>
+										<form action = "http://localhost:5000/respiratoryuploader" method = "POST"
+										   enctype = "multipart/form-data">
+											<ul class="actions">
+												<label class="button icon solid fa-upload">
+   													<span>Upload .wav file</span>
+													<input type="file" id="files" name="file"></input>
+													<div id="files-filename"></div>
+												</label>
+												<li><input type = "submit"/></li>
+											</ul>
+									 </form>
 									</ul>
 								</div>
 							</div>
@@ -77,7 +96,16 @@
 									<h2>Specific Language Impairment</h2>
 									<p>Specific Language Impairment is a disorder that affects children's ability to communicate. It affects reading, writing, speaking, and listening. Current techniques to detect SLI are observational or requires testing. Our solution processes one audio clip of a child and classifies SLI with over 75% accuracy rate and is much quicker than traditional methods.</p>
 									<ul class="actions">
-										<li><a href="sli" class="button">Specific Language Impairment Detection</a></li>
+										<form action = "http://localhost:5000/sliuploader" method = "POST"
+										   enctype = "multipart/form-data">
+											<ul class="actions">
+												<label class="button icon solid fa-upload">
+   													<span>Upload .wav file</span>
+													<input type="file" id="files" name="file"></input>
+													<div id="files-filename"></div>
+												</label>
+												<li><input type = "submit"/></li>
+											</ul>
 									</ul>
 								</div>
 							</div>
