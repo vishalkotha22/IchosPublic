@@ -67,7 +67,7 @@
                             <ul class="actions">
                                 <label class="button icon solid fa-upload">
                                     <span>Upload .wav file</span>
-                                    <input type="file" id="files" name="file"></input>
+                                    <input type="file" id="files" name="file" required></input>
                                     <div id="files-filename"></div>
                                 </label>
                                 <li><input type="submit"/></li>
@@ -99,7 +99,7 @@
                             <ul class="actions">
                                 <label class="button icon solid fa-upload">
                                     <span>Upload .wav file</span>
-                                    <input type="file" id="files" name="file"></input>
+                                    <input type="file" id="files" name="file" required></input>
                                     <div id="files-filename"></div>
                                 </label>
                                 <li><input type="submit"/></li>
@@ -124,7 +124,7 @@
                             <ul class="actions">
                                 <label class="button icon solid fa-upload">
                                     <span>Upload .wav file</span>
-                                    <input type="file" id="files" name="file"></input>
+                                    <input type="file" id="files" name="file" required></input>
                                     <div id="files-filename"></div>
                                 </label>
                                 <li><input type="submit"/></li>
@@ -202,15 +202,15 @@
                     >
                         <label>
                             Your email:
-                            <input type="email" name="_replyto">
+                            <input type="email" name="_replyto" required>
                         </label>
                         <label>
                             Subject:
-                            <input type="text" name="subject"/>
+                            <input type="text" name="subject" required/>
                         </label>
                         <label>
                             Your message:
-                            <textarea name="message" rows = "5"></textarea>
+                            <textarea name="message" rows = "5" required></textarea>
                         </label>
                         <!-- your other form fields go here -->
                         <button type="submit">Send</button>
