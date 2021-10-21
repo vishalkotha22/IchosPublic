@@ -76,6 +76,7 @@ def upload_file2():
     if request.method == 'POST':
         f = request.files['file']
         f.save(secure_filename('respiratoryfile.wav'))
+
         return prediction
 
 

@@ -15,10 +15,10 @@
 		function showFileName(event) {
 
 			// the change event gives us the input it occurred in
-			var input = event.srcElement;
+			var input1 = event.srcElement;
 
 			// the input has an array of files in the `files` property, each one has a name that you can use. We're just using the name here.
-			var fileName = input.files[0].name;
+			var fileName = input1.files[0].name;
 
 			// use fileName however fits your app best, i.e. add it into a div
 			infoArea.textContent = 'File name: ' + fileName;
@@ -34,10 +34,10 @@
 		function showFileName(event) {
 
 			// the change event gives us the input it occurred in
-			var input = event.srcElement;
+			var input2 = event.srcElement;
 
 			// the input has an array of files in the `files` property, each one has a name that you can use. We're just using the name here.
-			var fileName = input.files[0].name;
+			var fileName = input2.files[0].name;
 
 			// use fileName however fits your app best, i.e. add it into a div
 			infoArea.textContent = 'File name: ' + fileName;
@@ -53,10 +53,10 @@
 		function showFileName(event) {
 
 			// the change event gives us the input it occurred in
-			var input = event.srcElement;
+			var input3 = event.srcElement;
 
 			// the input has an array of files in the `files` property, each one has a name that you can use. We're just using the name here.
-			var fileName = input.files[0].name;
+			var fileName = input3.files[0].name;
 
 			// use fileName however fits your app best, i.e. add it into a div
 			infoArea.textContent = 'File name: ' + fileName;
