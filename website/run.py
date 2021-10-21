@@ -65,7 +65,7 @@ def upload_file1():
         x = img_resize.flatten()
         img_reshape = x[np.newaxis, ...]
         prediction = model.predict(img_reshape)
-        if prediction[0] == 0:
+        if prediction[0] < 0.5:
             return 'You do not have Alzheimers'
         else:
             return 'You do have Alzheimers'
@@ -89,7 +89,7 @@ def upload_file3():
     if request.method == 'POST':
         f = request.files['file']
         f.save(secure_filename('slifile.wav'))
-        features = get_sli_features(f)
+        features = get_sli_features('slifile.wav')
         model = load_model()
         prediction = model.predict(features)
         if prediction < 0.5:

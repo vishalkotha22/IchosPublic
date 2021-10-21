@@ -101,7 +101,7 @@ def get_sli_features(wav_file):
     total_syl = sum([syllable_count(word) for word in split])
     average_syl = total_syl / len(split)
     num_dos = text.count('do')
-    return [child_TNW, repetition, fillers, average_syl, -1, 'male', total_syl, num_dos]
+    return [[child_TNW, repetition, fillers, average_syl, -1, total_syl, num_dos]]
 
 
 def wav_to_spectrogram(file):

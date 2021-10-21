@@ -5,12 +5,50 @@
 */
 
 (function($) {
-	var input = document.getElementById('files');
-	if (input != null) {
+	var input1 = document.getElementById('files1');
+	if (input1 != null) {
 
-		var infoArea = document.getElementById('files-filename');
+		var infoArea = document.getElementById('files-filename1');
 
-		input.addEventListener('change', showFileName);
+		input1.addEventListener('change', showFileName);
+
+		function showFileName(event) {
+
+			// the change event gives us the input it occurred in
+			var input = event.srcElement;
+
+			// the input has an array of files in the `files` property, each one has a name that you can use. We're just using the name here.
+			var fileName = input.files[0].name;
+
+			// use fileName however fits your app best, i.e. add it into a div
+			infoArea.textContent = 'File name: ' + fileName;
+		}
+	}
+	var input2 = document.getElementById('files2');
+	if (input2 != null) {
+
+		var infoArea = document.getElementById('files-filename2');
+
+		input2.addEventListener('change', showFileName);
+
+		function showFileName(event) {
+
+			// the change event gives us the input it occurred in
+			var input = event.srcElement;
+
+			// the input has an array of files in the `files` property, each one has a name that you can use. We're just using the name here.
+			var fileName = input.files[0].name;
+
+			// use fileName however fits your app best, i.e. add it into a div
+			infoArea.textContent = 'File name: ' + fileName;
+		}
+	}
+	var input3 = document.getElementById('files3');
+	if (input3 != null) {
+
+		var infoArea = document.getElementById('files-filename3');
+
+		input3.addEventListener('change', showFileName);
 
 		function showFileName(event) {
 
