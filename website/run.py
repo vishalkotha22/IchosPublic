@@ -75,7 +75,7 @@ def upload_file1():
 def upload_file2():
     if request.method == 'POST':
         f = request.files['file']
-        f.save(secure_filename('file.wav'))
+        f.save(secure_filename('respiratoryfile.wav'))
         return prediction
 
 
@@ -88,7 +88,14 @@ def upload_file3():
 
     if request.method == 'POST':
         f = request.files['file']
-        f.save(secure_filename('file.wav'))
+        f.save(secure_filename('slifile.wav'))
+        features = get_sli_features(f)
+        model = load_model()
+        prediction = model.predict(features)
+        if prediction < 0.5:
+            return "You do not have SLI"
+        else:
+            return "You may have SLI"
 
 
 

@@ -1,13 +1,20 @@
+import os
+
 import librosa as lb
 import numpy as np
 import cv2
 import pickle
 from PIL import Image, ImageOps
+from pydub.silence import split_on_silence
 from scipy import signal
 from scipy.io import wavfile
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
 import io
+from xgboost import XGBClassifier
+import speech_recognition as sr
+import re
+from scipy import interp
 
 class_names = {0: 'URTI', 1: 'Healthy', 2: 'Asthma', 3: 'COPD', 4: 'LRTI', 5: 'Bronchiectasis',
               6: 'Pneumonia', 7: 'Bronchiolitis'}
@@ -107,7 +114,7 @@ def wav_to_spectrogram(file):
     plt.pcolormesh(times, frequencies, np.log(spectrogram))
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [sec]')
-    plt.show()
+    #plt.show()
     image = spectrogram
     io_buf = io.BytesIO()
     fig.savefig(io_buf, format='raw', dpi=50)
