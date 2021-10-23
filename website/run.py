@@ -69,9 +69,9 @@ def upload_file1():
         img_reshape = x[np.newaxis, ...]
         prediction = model.predict(img_reshape)
         if prediction[0] < 0.5:
-            return render_template('results.html', data=[0, 'You may have Alzheimer\'s'])
-        else:
             return render_template('results.html', data=[0, 'You do not Alzheimers'])
+        else:
+            return render_template('results.html', data=[0, 'You may have ALzheimers'])
 
 
 
@@ -104,9 +104,9 @@ def upload_file3():
         model = load_model()
         prediction = model.predict(features)
         if prediction[0] < 0.5:
-            return render_template('results.html', data = [2, 'You may have Specific Language Impairment'])
-        else:
             return render_template('results.html', data = [2, 'You do not have Specific Language Impairment'])
+        else:
+            return render_template('results.html', data = [2, 'You may have Specific Language Impairment'])
 
 
 
