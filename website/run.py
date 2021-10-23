@@ -36,7 +36,8 @@ def alzheimers():
         image = ImageOps.fit(img, (295, 295), Image.ANTIALIAS)
         image = np.asarray(image)
         img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        img_resize = (cv2.resize(img, dsize=(295, 295), interpolation=cv2.INTER_CUBIC)) / 255.
+        img_resize = (cv2.resize(img, dsize=(295, 295),
+                      interpolation=cv2.INTER_CUBIC)) / 255
         x = img_resize.flatten()
         img_reshape = x[np.newaxis, ...]
         prediction = model.predict(img_reshape)
@@ -64,7 +65,8 @@ def upload_file1():
         #image = ImageOps.fit(img, (295, 295))
         image = np.asarray(img)
         img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        img_resize = (cv2.resize(img, dsize=(295, 295), interpolation=cv2.INTER_CUBIC)) / 255.
+        img_resize = (cv2.resize(img, dsize=(295, 295),
+                      interpolation=cv2.INTER_CUBIC)) / 255.
         x = img_resize.flatten()
         img_reshape = x[np.newaxis, ...]
         prediction = model.predict(img_reshape)
@@ -72,7 +74,6 @@ def upload_file1():
             return render_template('results.html', data=[0, 'You do not Alzheimers'])
         else:
             return render_template('results.html', data=[0, 'You may have ALzheimers'])
-
 
 
 @app.route('/respiratoryuploader', methods=['GET', 'POST'])
@@ -104,10 +105,9 @@ def upload_file3():
         model = load_model()
         prediction = model.predict(features)
         if prediction[0] < 0.5:
-            return render_template('results.html', data = [2, 'You do not have Specific Language Impairment'])
+            return render_template('results.html', data=[2, 'You do not have Specific Language Impairment'])
         else:
-            return render_template('results.html', data = [2, 'You may have Specific Language Impairment'])
-
+            return render_template('results.html', data=[2, 'You may have Specific Language Impairment'])
 
 
 @app.route('/sli')

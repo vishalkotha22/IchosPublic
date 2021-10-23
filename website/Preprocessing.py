@@ -11,7 +11,6 @@ from scipy.io import wavfile
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
 import io
-from xgboost import XGBClassifier
 import speech_recognition as sr
 import re
 from scipy import interp
