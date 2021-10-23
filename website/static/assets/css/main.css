@@ -40,7 +40,10 @@ body {
 ol, ul {
 	list-style: none;
 }
-
+#noresize{
+  resize: vertical; /* user can resize vertically, but width is fixed */
+}
+}
 blockquote, q {
 	quotes: none;
 }
