@@ -1,14 +1,9 @@
-/*
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
 
 (function($) {
 	var input1 = document.getElementById('files1');
 	if (input1 != null) {
 
-		var infoArea = document.getElementById('files-filename1');
+		var infoArea1 = document.getElementById('files-filename1');
 
 		input1.addEventListener('change', showFileName);
 
@@ -21,13 +16,13 @@
 			var fileName = input1.files[0].name;
 
 			// use fileName however fits your app best, i.e. add it into a div
-			infoArea.textContent = 'File name: ' + fileName;
+			infoArea1.textContent = 'File name: ' + fileName;
 		}
 	}
 	var input2 = document.getElementById('files2');
 	if (input2 != null) {
 
-		var infoArea = document.getElementById('files-filename2');
+		var infoArea2 = document.getElementById('files-filename2');
 
 		input2.addEventListener('change', showFileName);
 
@@ -40,13 +35,13 @@
 			var fileName = input2.files[0].name;
 
 			// use fileName however fits your app best, i.e. add it into a div
-			infoArea.textContent = 'File name: ' + fileName;
+			infoArea2.textContent = 'File name: ' + fileName;
 		}
 	}
 	var input3 = document.getElementById('files3');
 	if (input3 != null) {
 
-		var infoArea = document.getElementById('files-filename3');
+		var infoArea3 = document.getElementById('files-filename3');
 
 		input3.addEventListener('change', showFileName);
 
@@ -59,7 +54,7 @@
 			var fileName = input3.files[0].name;
 
 			// use fileName however fits your app best, i.e. add it into a div
-			infoArea.textContent = 'File name: ' + fileName;
+			infoArea3.textContent = 'File name: ' + fileName;
 		}
 	}
 	var	$window = $(window),

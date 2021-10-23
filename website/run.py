@@ -11,8 +11,9 @@ from scipy.io import wavfile
 from pydub import AudioSegment
 import io
 import matplotlib.pyplot as plt
+import tensorflow as tf
 import cv2
-from Preprocessing import wav_to_spectrogram, get_sli_features, get_feature_helper
+from Preprocessing import wav_to_spectrogram, get_sli_features, get_feature_helper, respiratory_preprocess
 
 app = Flask(__name__)
 
@@ -55,6 +56,8 @@ def upload_file1():
 
     if request.method == 'POST':
         f = request.files['file']
+        if not f.filename.endswith('.wav'):
+            return 'Wrong File Type'
         f.save(secure_filename('file.wav'))
         img = wav_to_spectrogram(f)
         model = load_model()
@@ -66,18 +69,23 @@ def upload_file1():
         img_reshape = x[np.newaxis, ...]
         prediction = model.predict(img_reshape)
         if prediction[0] < 0.5:
-            return 'You do not have Alzheimers'
+            return render_template('results.html', data=[0, 'You may have Alzheimer\'s'])
         else:
-            return 'You do have Alzheimers'
+            return render_template('results.html', data=[0, 'You do not Alzheimers'])
+
 
 
 @app.route('/respiratoryuploader', methods=['GET', 'POST'])
 def upload_file2():
     if request.method == 'POST':
         f = request.files['file']
+        if not f.filename.endswith('.wav'):
+            return 'Wrong File Type'
         f.save(secure_filename('respiratoryfile.wav'))
-
-        return prediction
+        inp = respiratory_preprocess('respiratoryfile.wav')
+        new_model = tf.keras.models.load_model('models/respiratory_model')
+        i = new_model.predict(inp)
+        return render_template('results.html', data=[1, i])
 
 
 @app.route('/sliuploader', methods=['GET', 'POST'])
@@ -89,14 +97,16 @@ def upload_file3():
 
     if request.method == 'POST':
         f = request.files['file']
+        if not f.filename.endswith('.wav'):
+            return 'Wrong File Type'
         f.save(secure_filename('slifile.wav'))
         features = get_sli_features('slifile.wav')
         model = load_model()
         prediction = model.predict(features)
-        if prediction < 0.5:
-            return "You do not have SLI"
+        if prediction[0] < 0.5:
+            return render_template('results.html', data = [2, 'You may have Specific Language Impairment'])
         else:
-            return "You may have SLI"
+            return render_template('results.html', data = [2, 'You do not have Specific Language Impairment'])
 
 
 
@@ -110,9 +120,9 @@ def respiratory():
     return render_template('respiratory.html')
 
 
-@app.route('/generic')
-def generic():
-    return render_template('generic.html')
+@app.route('/results')
+def results():
+    return render_template('results.html')
 
 
 if __name__ == '__main__':
