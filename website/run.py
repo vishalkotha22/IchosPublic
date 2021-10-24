@@ -15,6 +15,8 @@ import tensorflow as tf
 import cv2
 from Preprocessing import wav_to_spectrogram, get_sli_features, get_feature_helper, respiratory_preprocess, \
     convert_audio_to_spectogram, plotstft
+import matplotlib
+matplotlib.use('Agg')
 
 app = Flask(__name__)
 
@@ -22,8 +24,6 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return render_template('index.html')
-
-
 
 
 @app.route('/alzhiemersuploader', methods=['GET', 'POST'])
@@ -63,7 +63,7 @@ def upload_file1():
         if prediction[0] < 0.5:
             return render_template('results.html', data=[0, 'You do not have Alzheimers'])
         else:
-            return render_template('results.html', data=[0, 'You may have ALzheimers'])
+            return render_template('results.html', data=[0, 'You may have Alzheimers'])
 
 
 @app.route('/respiratoryuploader', methods=['GET', 'POST'])
