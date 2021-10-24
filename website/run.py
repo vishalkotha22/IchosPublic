@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import cv2
 from Preprocessing import wav_to_spectrogram, get_sli_features, get_feature_helper, respiratory_preprocess, \
-    convert_audio_to_spectogram
+    convert_audio_to_spectogram, plotstft
 
 app = Flask(__name__)
 
@@ -50,11 +50,13 @@ def upload_file1():
         plt.show()
         x = img_resize.flatten()
         img_reshape = x[np.newaxis, ...]'''
-        img_resize = convert_audio_to_spectogram('file.wav')
-        #img_resize = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        plt.imshow(img_resize)
-        plt.show()
+        img_resize = plotstft('file.wav')
+        #img_resize = cv2.cvtColor(img_resize, cv2.COLOR_BGR2RGB)
+        img_resize = img_resize[:, :, :3]
+        # plt.imshow(img_resize)
+        # plt.show()
         x = img_resize.flatten()
+        print(img_resize.shape, x.shape)
         img_reshape = x[np.newaxis, ...]
         prediction = model.predict(img_reshape)
 
