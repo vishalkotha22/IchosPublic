@@ -61,7 +61,7 @@ def upload_file1():
         prediction = model.predict(img_reshape)
 
         if prediction[0] < 0.5:
-            return render_template('results.html', data=[0, 'You do not Alzheimers'])
+            return render_template('results.html', data=[0, 'You do not have Alzheimers'])
         else:
             return render_template('results.html', data=[0, 'You may have ALzheimers'])
 
