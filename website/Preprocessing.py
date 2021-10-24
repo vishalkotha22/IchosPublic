@@ -3,6 +3,7 @@ import os
 import librosa as lb
 import numpy as np
 import cv2
+import soundfile as sf
 import pickle
 from PIL import Image, ImageOps
 from pydub.silence import split_on_silence
@@ -39,6 +40,22 @@ def respiratory_preprocess(vid_file_path):
     mspec = np.array([c])
     return {"mfcc":mfcc,"croma":cstft,"mspec":mspec}
 
+
+def getPureSample(raw_data,start,end,sr=22050):
+    max_ind = len(raw_data) 
+    start_ind = min(int(start * sr), max_ind)
+    end_ind = min(int(end * sr), max_ind)
+    return raw_data[start_ind: end_ind]
+
+
+def process_file(vid_file_path):
+    start = 1.
+    end = 5.
+    audioArr,sampleRate=lb.load(vid_file_path)
+    pureSample=getPureSample(audioArr,start,end,sampleRate)
+    reqLen=6*sampleRate
+    padded_data = lb.util.pad_center(pureSample, reqLen)
+    sf.write(file='processed.wav',data=padded_data,samplerate=sampleRate)
 
 def get_sli_features(wav_file):
     r = sr.Recognizer()

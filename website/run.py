@@ -13,7 +13,7 @@ import io
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import cv2
-from Preprocessing import wav_to_spectrogram, get_sli_features, get_feature_helper, respiratory_preprocess
+from Preprocessing import class_names_full, wav_to_spectrogram, get_sli_features, get_feature_helper, respiratory_preprocess, process_file
 
 app = Flask(__name__)
 
@@ -83,10 +83,12 @@ def upload_file2():
         if not f.filename.endswith('.wav'):
             return 'Wrong File Type'
         f.save(secure_filename('respiratoryfile.wav'))
-        inp = respiratory_preprocess('respiratoryfile.wav')
+        process_file('respiratoryfile.wav')
+        inp = respiratory_preprocess('processed.wav')
         new_model = tf.keras.models.load_model('models/respiratory_model')
         i = new_model.predict(inp)
-        return render_template('results.html', data=[1, i])
+        pred = class_names_full[np.argmax(i)]
+        return render_template('results.html', data=[1, pred])
 
 
 @app.route('/sliuploader', methods=['GET', 'POST'])
