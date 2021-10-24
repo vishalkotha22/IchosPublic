@@ -13,7 +13,8 @@ import io
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import cv2
-from Preprocessing import wav_to_spectrogram, get_sli_features, get_feature_helper, respiratory_preprocess
+from Preprocessing import wav_to_spectrogram, get_sli_features, get_feature_helper, respiratory_preprocess, \
+    convert_audio_to_spectogram
 
 app = Flask(__name__)
 
@@ -23,29 +24,6 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/alzheimers', methods=['GET', 'POST'])
-def alzheimers():
-    def load_model():
-        pickle_in = open('models/alzheimers_model.pickle', 'rb')
-        classifier = pickle.load(pickle_in)
-        return classifier
-
-    def inference(file):
-        img = wav_to_spectrogram(file)
-        model = load_model()
-        image = ImageOps.fit(img, (295, 295), Image.ANTIALIAS)
-        image = np.asarray(image)
-        img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        img_resize = (cv2.resize(img, dsize=(295, 295),
-                      interpolation=cv2.INTER_CUBIC)) / 255
-        x = img_resize.flatten()
-        img_reshape = x[np.newaxis, ...]
-        prediction = model.predict(img_reshape)
-        return prediction
-
-    if flask.request.method == 'POST':
-        pass
-    return render_template('alzheimers.html')
 
 
 @app.route('/alzhiemersuploader', methods=['GET', 'POST'])
@@ -60,16 +38,26 @@ def upload_file1():
         if not f.filename.endswith('.wav'):
             return 'Wrong File Type'
         f.save(secure_filename('file.wav'))
-        img = wav_to_spectrogram(f)
+        #img = wav_to_spectrogram(f)
         model = load_model()
-        #image = ImageOps.fit(img, (295, 295))
-        image = np.asarray(img)
-        img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        #img = ImageOps.fit(img, (295, 295))
+        '''img = np.asarray(img)
+        plt.imshow(img)
+
         img_resize = (cv2.resize(img, dsize=(295, 295),
-                      interpolation=cv2.INTER_CUBIC)) / 255.
+                      interpolation=cv2.INTER_CUBIC)) / 255
+
+        plt.show()
+        x = img_resize.flatten()
+        img_reshape = x[np.newaxis, ...]'''
+        img_resize = convert_audio_to_spectogram('file.wav')
+        #img_resize = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        plt.imshow(img_resize)
+        plt.show()
         x = img_resize.flatten()
         img_reshape = x[np.newaxis, ...]
         prediction = model.predict(img_reshape)
+
         if prediction[0] < 0.5:
             return render_template('results.html', data=[0, 'You do not Alzheimers'])
         else:
@@ -104,6 +92,7 @@ def upload_file3():
         features = get_sli_features('slifile.wav')
         model = load_model()
         prediction = model.predict(features)
+        print(prediction)
         if prediction[0] < 0.5:
             return render_template('results.html', data=[2, 'You do not have Specific Language Impairment'])
         else:

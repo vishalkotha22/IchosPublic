@@ -12,8 +12,9 @@ import matplotlib.pyplot as plt
 from pydub import AudioSegment
 import io
 import speech_recognition as sr
+import librosa.display
 import re
-from scipy import interp
+import soundfile as sf
 
 class_names = {0: 'URTI', 1: 'Healthy', 2: 'Asthma', 3: 'COPD', 4: 'LRTI', 5: 'Bronchiectasis',
               6: 'Pneumonia', 7: 'Bronchiolitis'}
@@ -40,6 +41,21 @@ def respiratory_preprocess(vid_file_path):
     return {"mfcc":mfcc,"croma":cstft,"mspec":mspec}
 
 
+def getPureSample(raw_data,start,end,sr=22050):
+    max_ind = len(raw_data)
+    start_ind = min(int(start * sr), max_ind)
+    end_ind = min(int(end * sr), max_ind)
+    return raw_data[start_ind: end_ind]
+
+
+def process_file(vid_file_path):
+    start = 1.
+    end = 5.
+    audioArr,sampleRate=lb.load(vid_file_path)
+    pureSample=getPureSample(audioArr,start,end,sampleRate)
+    reqLen=6*sampleRate
+    padded_data = lb.util.pad_center(pureSample, reqLen)
+    sf.write(file='processed.wav',data=padded_data,samplerate=sampleRate)
 def get_sli_features(wav_file):
     r = sr.Recognizer()
 
@@ -110,9 +126,11 @@ def wav_to_spectrogram(file):
     sample_rate, samples = wavfile.read("path.wav")
     frequencies, times, spectrogram = signal.spectrogram(samples, sample_rate)
     fig = plt.figure()
+    ax = plt.Axes(fig, [0., 0., 1., 1.])
+    ax.set_axis_off()
+    fig.add_axes(ax)
     plt.pcolormesh(times, frequencies, np.log(spectrogram))
-    plt.ylabel('Frequency [Hz]')
-    plt.xlabel('Time [sec]')
+    plt.axis('off')
     #plt.show()
     image = spectrogram
     io_buf = io.BytesIO()
@@ -124,5 +142,42 @@ def wav_to_spectrogram(file):
     print(img_arr.shape)
     return img_arr
 
+
+def convert_audio_to_spectogram(filename):
+    """
+    convert_audio_to_spectogram -- using librosa to simply plot a spectogram
+
+    Arguments:
+    filename -- filepath to the file that you want to see the waveplot for
+
+    Returns -- None
+    """
+
+    # sr == sampling rate
+    x, sr = lb.load(filename, sr=44100)
+
+    # stft is short time fourier transform
+    X = lb.stft(x)
+
+    # convert the slices to amplitude
+    Xdb = lb.amplitude_to_db(abs(X))
+
+    # ... and plot, magic!
+    fig = plt.figure(figsize=(2.95, 2.95))
+    ax = plt.Axes(fig, [0., 0., 1., 1.])
+    ax.set_axis_off()
+    fig.add_axes(ax)
+
+    librosa.display.specshow(Xdb, sr=sr, x_axis='time', y_axis='hz')
+    # plt.show()
+    # io_buf = io.BytesIO()
+    # fig.savefig(io_buf, format='raw', dpi=43)
+    # io_buf.seek(0)
+    # img_arr = np.reshape(np.frombuffer(io_buf.getvalue(), dtype=np.uint8),
+    #                      newshape=261075)
+    plt.savefig('spectrogram.png')
+    image = Image.open('spectrogram.png')
+    image = np.array(image)
+    return image
 
 
