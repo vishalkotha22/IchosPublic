@@ -140,6 +140,7 @@ def get_sli_features(wav_file):
     text = get_large_audio_transcription(wav_file)
     split = text.split(' ')
     child_TNW = text.count(' ')
+    child_TNS = text.count('.') + text.count('!') + text.count('?')
     repetition = 0
     for i in range(len(split) - 1):
         temp = 0
@@ -169,7 +170,7 @@ def get_sli_features(wav_file):
     total_syl = sum([syllable_count(word) for word in split])
     average_syl = total_syl / len(split)
     num_dos = text.count('do')
-    return [[child_TNW, repetition, fillers, average_syl, -1, total_syl, num_dos]]
+    return [[child_TNW, child_TNS, num_dos, repetition, fillers, total_syl, average_syl]]
 
 
 def wav_to_spectrogram(file): #old version1

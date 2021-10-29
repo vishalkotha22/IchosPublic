@@ -75,7 +75,7 @@ def upload_file2():
         f.save(secure_filename('respiratoryfile.wav'))
         new_model = tf.keras.models.load_model('models/respiratory_model_v2')
         diag, conf = process_file('respiratoryfile.wav', new_model)
-        return render_template('results.html', data=[1, diag])
+        return render_template('results.html', data=[1, f'{int(conf*100)}% chance of {diag}' if diag != 'Healthy' else 'Healthy'])
 
 
 @app.route('/sliuploader', methods=['GET', 'POST'])
