@@ -27,6 +27,7 @@ class_names_full = {0: 'Upper Respiratory Tract Infection', 1: 'Healthy',
 
 
 # Helper method for respiratory_preprocess
+#OLD METHOD: DOES NOT WORK!!!
 def get_feature_helper(path):
     soundArr, sample_rate = lb.load(path)
     mfcc = lb.feature.mfcc(y=soundArr, sr=sample_rate)
@@ -34,7 +35,7 @@ def get_feature_helper(path):
     mSpec = lb.feature.melspectrogram(y=soundArr, sr=sample_rate)
     return mfcc, cstft, mSpec
 
-
+#OLD METHOD: DOES NOT WORK!!!
 def respiratory_preprocess(vid_file_path):
     a, b, c = get_feature_helper(vid_file_path)
     mfcc = np.array([a])
@@ -43,21 +44,68 @@ def respiratory_preprocess(vid_file_path):
     return {"mfcc": mfcc, "croma": cstft, "mspec": mspec}
 
 
-def getPureSample(raw_data, start, end, sr=22050):
-    max_ind = len(raw_data)
+
+
+def get_feature_helper(path):
+    soundArr,sample_rate=lb.load(path)
+    mfcc=lb.feature.mfcc(y=soundArr,sr=sample_rate)
+    cstft=lb.feature.chroma_stft(y=soundArr,sr=sample_rate)
+    mSpec=lb.feature.melspectrogram(y=soundArr,sr=sample_rate)
+    return mfcc,cstft,mSpec
+
+
+def respiratory_preprocess(vid_file_path):
+    a, b, c = get_feature_helper(vid_file_path)
+    mfcc = np.array([a])
+    cstft = np.array([b])
+    mspec = np.array([c])
+    return {"mfcc":mfcc,"croma":cstft,"mspec":mspec}
+
+def getPureSample(raw_data,start,end,sr=22050):
+    '''
+    Takes a numpy array and spilts its using start and end args
+    
+    raw_data=numpy array of audio sample
+    start=time
+    end=time
+    sr=sampling_rate
+    mode=mono/stereo
+    
+    '''
+    max_ind = len(raw_data) 
     start_ind = min(int(start * sr), max_ind)
     end_ind = min(int(end * sr), max_ind)
     return raw_data[start_ind: end_ind]
 
 
-def process_file(vid_file_path):
+def process_file(vid_file_path, model):
+    audioArr,sampleRate=lb.load(vid_file_path)
+    video_len = lb.get_duration(y=audioArr, sr=sampleRate)
     start = 1.
-    end = 5.
-    audioArr, sampleRate = lb.load(vid_file_path)
-    pureSample = getPureSample(audioArr, start, end, sampleRate)
-    reqLen = 6 * sampleRate
-    padded_data = lb.util.pad_center(pureSample, reqLen)
-    sf.write(file='processed.wav', data=padded_data, samplerate=sampleRate)
+    iter_num = 1
+    total = np.zeros((1, 8))
+    print(f'Video Length: {video_len}; Start: {start};')
+    counts = {}
+    max_diag = -1
+    num_max = 0
+    while start <= video_len-5:
+        end = start+2
+        pureSample=getPureSample(audioArr,start,end,sampleRate)
+        reqLen = 6*sampleRate
+        padded_data = lb.util.pad_center(pureSample, reqLen)
+        sf.write(file='processed.wav',data=padded_data,samplerate=sampleRate)
+        inp = respiratory_preprocess('processed.wav')
+        pred = model.predict(inp)
+        pred_val = np.argmax(pred[0])
+        confidence = pred[0][pred_val]
+        if pred_val not in counts.keys():
+            counts[pred_val] = 0
+        counts[pred_val] += 1 
+        if counts[pred_val] > num_max:
+            num_max = counts[pred_val]
+            max_diag = pred_val
+        start += 2
+    return class_names[max_diag], confidence
 
 
 def get_sli_features(wav_file):

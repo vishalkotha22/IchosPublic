@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import cv2
 from Preprocessing import wav_to_spectrogram, get_sli_features, get_feature_helper, respiratory_preprocess, \
-    convert_audio_to_spectogram, plotstft
+    convert_audio_to_spectogram, plotstft, process_file
 import matplotlib
 matplotlib.use('Agg')
 
@@ -73,10 +73,9 @@ def upload_file2():
         if not f.filename.endswith('.wav'):
             return 'Wrong File Type'
         f.save(secure_filename('respiratoryfile.wav'))
-        inp = respiratory_preprocess('respiratoryfile.wav')
-        new_model = tf.keras.models.load_model('models/respiratory_model')
-        i = new_model.predict(inp)
-        return render_template('results.html', data=[1, i])
+        new_model = tf.keras.models.load_model('models/respiratory_model_v2')
+        diag, conf = process_file('respiratoryfile.wav', new_model)
+        return render_template('results.html', data=[1, diag])
 
 
 @app.route('/sliuploader', methods=['GET', 'POST'])
