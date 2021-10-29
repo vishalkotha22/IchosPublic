@@ -6,3 +6,4 @@ app/Models/
 *.wav
 website/models/alzheimers_model.pickle
 venv/
+*.png
