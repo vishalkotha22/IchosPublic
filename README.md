@@ -3,5 +3,3 @@
 [Video](https://youtu.be/-aHEY56-wrM)
 
 ![cover](images/Cover-Photo.jpg)
-
-An OpenDL Product
