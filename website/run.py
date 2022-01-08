@@ -7,6 +7,7 @@ import librosa as lb
 import numpy as np
 import pickle
 from scipy import signal
+
 from scipy.io import wavfile
 from pydub import AudioSegment
 import io
@@ -15,6 +16,9 @@ import tensorflow as tf
 import cv2
 
 import matplotlib
+
+from website.Preprocessing import *
+
 matplotlib.use('Agg')
 
 app = Flask(__name__)
@@ -37,9 +41,9 @@ def upload_file1():
         if not f.filename.endswith('.wav'):
             return 'Wrong File Type'
         f.save(secure_filename('file.wav'))
-        #img = wav_to_spectrogram(f)
+        # img = wav_to_spectrogram(f)
         model = load_model()
-        #img = ImageOps.fit(img, (295, 295))
+        # img = ImageOps.fit(img, (295, 295))
         '''img = np.asarray(img)
         plt.imshow(img)
 
@@ -50,7 +54,7 @@ def upload_file1():
         x = img_resize.flatten()
         img_reshape = x[np.newaxis, ...]'''
         img_resize = plotstft('file.wav')
-        #img_resize = cv2.cvtColor(img_resize, cv2.COLOR_BGR2RGB)
+        # img_resize = cv2.cvtColor(img_resize, cv2.COLOR_BGR2RGB)
         img_resize = img_resize[:, :, :3]
         # plt.imshow(img_resize)
         # plt.show()
@@ -65,7 +69,7 @@ def upload_file1():
             return render_template('results.html', data=[0, 'You may have Alzheimers'])
 
 
-@app.route('/respiratoryuploader', methods=['GET', 'POST'])
+@app.route('/respiratoryuploader', methods=['POST'])
 def upload_file2():
     if request.method == 'POST':
         f = request.files['file']
@@ -74,10 +78,11 @@ def upload_file2():
         f.save(secure_filename('respiratoryfile.wav'))
         new_model = tf.keras.models.load_model('models/respiratory_model_v2')
         diag, conf = process_file('respiratoryfile.wav', new_model)
-        return render_template('results.html', data=[1, f'{diag} with {int(conf*100)}% chance' if diag != 'Healthy' else 'Healthy'])
+        return render_template('results.html',
+                               data=[1, f'{diag} with {int(conf * 100)}% chance' if diag != 'Healthy' else 'Healthy'])
 
 
-@app.route('/sliuploader', methods=['GET', 'POST'])
+@app.route('/sliuploader', methods=['POST'])
 def upload_file3():
     def load_model():
         pickle_in = open('models/updated_forest_sli.pkl', 'rb')
@@ -112,3 +117,7 @@ def respiratory():
 @app.route('/results')
 def results():
     return render_template('results.html')
+
+
+if __name__ == '__main__':
+    app.run()
