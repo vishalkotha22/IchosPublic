@@ -1,15 +1,8 @@
-from PIL import ImageOps
-import flask
-from PIL.Image import Image
+
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
-import librosa as lb
 import numpy as np
 import pickle
-from scipy import signal
-
-from scipy.io import wavfile
-from pydub import AudioSegment
 import matplotlib.pyplot as plt
 import tensorflow as tf
 

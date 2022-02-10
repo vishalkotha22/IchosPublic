@@ -2,8 +2,6 @@ import os
 
 import librosa as lb
 import numpy as np
-import cv2
-import pickle
 from PIL import Image, ImageOps
 from pydub.silence import split_on_silence
 from scipy import signal
