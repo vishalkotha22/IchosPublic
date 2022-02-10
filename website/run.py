@@ -27,7 +27,7 @@ def home():
 @app.route('/alzhiemersuploader', methods=['GET', 'POST'])
 def upload_file1():
     def load_model():
-        pickle_in = open('models/alzheimers_model.pickle', 'rb')
+        pickle_in = open('models/alzheimers_model.pkl', 'rb')
         classifier = pickle.load(pickle_in)
         return classifier
 
