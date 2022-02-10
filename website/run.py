@@ -10,10 +10,8 @@ from scipy import signal
 
 from scipy.io import wavfile
 from pydub import AudioSegment
-import io
 import matplotlib.pyplot as plt
 import tensorflow as tf
-import cv2
 
 import matplotlib
 
@@ -119,5 +117,5 @@ def results():
     return render_template('results.html')
 
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run(host = '127.0.0.1', port = 5000)
