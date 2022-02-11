@@ -27,7 +27,7 @@ def home():
 @app.route('/alzhiemersuploader', methods=['GET', 'POST'])
 def upload_file1():
     def load_model():
-        pickle_in = open('models/alzheimers_model.pkl', 'rb')
+        pickle_in = open('website/models/alzheimers_model.pkl', 'rb')
         classifier = pickle.load(pickle_in)
         return classifier
 
@@ -71,7 +71,7 @@ def upload_file2():
         if not f.filename.endswith('.wav'):
             return 'Wrong File Type'
         f.save(secure_filename('respiratoryfile.wav'))
-        new_model = tf.keras.models.load_model('models/respiratory_model_v2')
+        new_model = tf.keras.models.load_model('website/models/respiratory_model_v2')
         diag, conf = process_file('respiratoryfile.wav', new_model)
         return render_template('results.html',
                                data=[1, f'{diag} with {int(conf * 100)}% chance' if diag != 'Healthy' else 'Healthy'])
@@ -80,7 +80,7 @@ def upload_file2():
 @app.route('/sliuploader', methods=['POST'])
 def upload_file3():
     def load_model():
-        pickle_in = open('models/updated_forest_sli.pkl', 'rb')
+        pickle_in = open('website/models/updated_forest_sli.pkl', 'rb')
         classifier = pickle.load(pickle_in)
         return classifier
 
