@@ -5,3 +5,5 @@
 [Video](https://youtu.be/-aHEY56-wrM)
 
 ![cover](images/Cover-Photo.jpg)
+
+Contributors: Sauman Das, Sameer Gabbita, Vishal Kotha, Arnav Jain
